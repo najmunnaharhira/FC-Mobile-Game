@@ -1,0 +1,3227 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" wf-loading>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="/assets/images/favicon.png"
+    />
+
+    <script>
+      window.newrelicAttributes = {
+        accountId: "1796917",
+        trustKey: "1796917",
+        agentId: "149134891",
+        licenseKey: "f701a6c63c",
+        applicationId: "149134891",
+      };
+    </script>
+    <script src="/newrelic.js"></script>
+
+    <!-- Compliant Google Optimize -->
+    <script>
+      (() => {
+        const getPrivacyCookie = () => {
+          const privacyCookie = document.cookie.match(
+            "(^|;)\\s*cmapi_cookie_privacy\\s*=\\s*([^;]+)"
+          );
+
+          return privacyCookie ? privacyCookie.pop() : null;
+        };
+
+        const getBehaviorCookie = () => {
+          const behaviorCookie = document.cookie.match(
+            "(^|;)\\s*notice_behavior\\s*=\\s*([^;]+)"
+          );
+
+          return behaviorCookie ? behaviorCookie.pop() : null;
+        };
+
+        const hasOptedIn = () => {
+          const behaviorCookie = getBehaviorCookie();
+          const privacyCookie = getPrivacyCookie();
+
+          return (
+            (behaviorCookie && behaviorCookie.match(/^none$/)) ||
+            (privacyCookie && privacyCookie.match(/2|3/))
+          );
+        };
+
+        const appendOptimize = () => {
+          const head = document.getElementsByTagName("head")[0];
+
+          if (head) {
+            const script = document.createElement("script");
+
+            script.src =
+              "https://www.googleoptimize.com/optimize.js?id=GTM-M6BQF2W";
+            script.id = "google-optimize";
+            head.append(script);
+          }
+        };
+
+        const removeOptimize = () => {
+          const head = document.getElementsByTagName("head")[0];
+          const optimizeScript = document.getElementById("google-optimize");
+
+          if (head && optimizeScript) {
+            head.removeChild(optimizeScript);
+          }
+        };
+
+        /**
+         * Append or remove Google Optimize script to head,
+         * depending on whether user's cookie preferences
+         * have opted in and Google Optimize script already
+         * exists in head.
+         */
+        const handleConsentDecision = () => {
+          const googleOptimizeScript =
+            document.getElementById("google-optimize");
+          if (hasOptedIn() && !googleOptimizeScript) {
+            appendOptimize();
+          } else if (!hasOptedIn() && googleOptimizeScript) {
+            removeOptimize();
+          }
+        };
+
+        /**
+         * Callbacks will occur in the form of a PostMessage event. This code listens for the
+         * appropriately formatted PostMessage event, gets the new consent decision, and then sets
+         * the new cookie preferences.
+         */
+        const handlePreferencesUpdated = (e) => {
+          try {
+            const { capabilities, action } =
+              JSON.parse(e.data).PrivacyManagerAPI || {};
+            if (capabilities && action === "getConsentDecision") {
+              handleConsentDecision();
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+
+        /**
+         * Registers with the TrustArc Content Manager (CM) API to receive callbacks when
+         * a preference update occurs, and initialized dispatched preferences array to
+         * the user's current preferences. You must wait for the CM API (PrivacyManagerAPI object)
+         * to exist on the page before registering.
+         */
+        const CMICallbackRegister = () => {
+          const interval = setInterval(() => {
+            if (window.PrivacyManagerAPI && interval) {
+              const apiObject = {
+                PrivacyManagerAPI: {
+                  action: "getConsentDecision",
+                  timestamp: new Date().getTime(),
+                  self: window.location.host,
+                },
+              };
+              window.top.postMessage(JSON.stringify(apiObject), "*");
+              clearInterval(interval);
+            }
+          }, 50);
+        };
+
+        /**
+         * Listener registers a message callback on the TrustArc Content Manager when
+         * user's cookie preferences are updated and adds an event listener
+         * on the message events that occur when said preference updates occur.
+         */
+        const trustArcScriptLoadListener = () => {
+          if (typeof window.truste === "object") {
+            CMICallbackRegister();
+            window.addEventListener("message", handlePreferencesUpdated);
+          }
+        };
+
+        window.addEventListener("load", trustArcScriptLoadListener);
+        const behaviorCookie = getBehaviorCookie();
+
+        if (behaviorCookie === null) {
+          // wait for TrustArc script to load before checking cookies
+          let numIntervals = 0;
+          const scriptLoadInterval = setInterval(() => {
+            if (getBehaviorCookie()) {
+              handleConsentDecision();
+              clearInterval(scriptLoadInterval);
+            }
+            // Stop running interval after 8 times (8x the documented 500ms it
+            // should take to load the TrustArc script on the BE) to prevent running forever
+            if (++numIntervals >= 10) {
+              clearInterval(scriptLoadInterval);
+            }
+          }, 500);
+        } else {
+          handleConsentDecision();
+        }
+      })();
+    </script>
+    <!-- End Compliant Google Optimize -->
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l) {
+        w[l] = w[l] || [];
+        w[l].push({
+          "gtm.start": new Date().getTime(),
+          event: "gtm.js",
+        });
+
+        var f = d.getElementsByTagName(s)[0];
+        var j = d.createElement(s);
+        var dl = l !== "dataLayer" ? "&l=" + l : "";
+
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=GTM-TG32RCX" + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer");
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <style>
+      [unresolved] {
+        visibility: hidden !important;
+      }
+    </style>
+
+    <noscript>
+      <style>
+        [unresolved] {
+          visibility: visible !important;
+        }
+      </style>
+    </noscript>
+
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .image img {
+        max-width: 100%;
+      }
+    </style>
+
+    <script>
+      if (!CSS.supports("width", "calc((var(--test))")) {
+        window.ShadyCSS = {
+          shimcssproperties: true,
+        };
+      }
+
+      document.addEventListener("nds.typeKit.active", function () {
+        document.querySelector("html").removeAttribute("wf-loading");
+      });
+    </script>
+
+    <script
+      src="//unpkg.com/@webcomponents/webcomponentsjs@2.2.7/webcomponents-loader.js"
+      integrity="sha384-3HK5hxQbkFqOIxMbpROlRmRtYl2LBZ52t+tqcjzsmr9NJuOWQxl8RgQSyFvq2lhy"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="//cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"
+      integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D"
+      crossorigin="anonymous"
+    ></script>
+    <script src="//w.soundcloud.com/player/api.js"></script>
+
+    <script>
+      window.nds = window.nds || {};
+      window.nds.componentUrlPrefix =
+        "//pl.ea.com/release/4.66.3/elements/ea-elements.min.js".substring(
+          0,
+          "//pl.ea.com/release/4.66.3/elements/ea-elements.min.js".lastIndexOf(
+            "/"
+          ) + 1
+        );
+      window.nds.contentfulUrl = "https://contentful-proxy.juno.ea.com/graphql";
+      window.nds.salUrl =
+        "https://service-aggregation-layer.juno.ea.com/graphql";
+      window.nds.useApq = true;
+      window.nds.salClientId = "eacom-fe";
+      window.nds.xGameDistMethod = "eacom";
+      window.nds.lockboxGameId = "eacom";
+      window.nds.lockboxInvoiceSource = "EACOM-STORE-WEB-%countryCode%";
+      window.nds.lockboxExternalPaymentPath = "/lockbox-external-payment";
+    </script>
+
+    <script
+      type="module"
+      src="//pl.ea.com/release/4.66.3/elements/ea-elements.min.js"
+    ></script>
+    <script
+      nomodule
+      defer
+      src="//pl.ea.com/release/4.66.3/elements/ea-elements.min.js"
+    ></script>
+
+    <link
+      href="https://cdn.fonts.net/kit/c4731c60-dd16-11ec-b713-06e2001461d0/c4731c60-dd16-11ec-b713-06e2001461d0.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      @font-face {
+        font-family: "EAFC CruyffSansExpanded";
+        src: url(/assets/fonts/ea-sports-fc/CruyffSansExpanded-Heavy.otf)
+          format("opentype");
+      }
+    </style>
+
+    <style>
+      @font-face {
+        font-family: "MartaSerif";
+        src: url(https://media.contentapi.ea.com/content/dam/eacom/martaserif/martaserif-regular.otf)
+          format("opentype");
+      }
+    </style>
+
+    <style>
+      @font-face {
+        font-family: "CruyffSansReg";
+        src: url(https://media.contentapi.ea.com/content/dam/ea/fc/fc-24/fonts/cruyffsans-regular.otf)
+          format("opentype");
+      }
+    </style>
+
+    <style>
+      @font-face {
+        font-family: "CruyffSansMed";
+        src: url(https://media.contentapi.ea.com/content/dam/ea/fc/fc-24/fonts/cruyffsans-medium.otf)
+          format("opentype");
+      }
+    </style>
+
+    <style>
+      @font-face {
+        font-family: "MartaSerif";
+        src: url(https://media.contentapi.ea.com/content/dam/ea/fc/fc-24/fonts/martaserif-regular.otf)
+          format("opentype");
+      }
+    </style>
+
+    <style>
+      @font-face {
+        font-family: "ElectronicArtsDisplay";
+        src: url(/assets/fonts/display/ElectronicArtsDisplay-Regular.woff2)
+          format("woff");
+        font-weight: 400;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "ElectronicArtsDisplay";
+        src: url(/assets/fonts/display/ElectronicArtsDisplay-Bold.woff2)
+          format("woff");
+        font-weight: 600;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "ElectronicArtsText";
+        src: url(/assets/fonts/text/ElectronicArtsText-Light.woff2)
+          format("woff");
+        font-weight: 300;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "ElectronicArtsText";
+        src: url(/assets/fonts/text/ElectronicArtsText-LightItalic.woff2)
+          format("woff");
+        font-weight: 300;
+        font-style: italic;
+      }
+      @font-face {
+        font-family: "ElectronicArtsText";
+        src: url(/assets/fonts/text/ElectronicArtsText-Regular.woff2)
+          format("woff");
+        font-weight: 400;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "ElectronicArtsText";
+        src: url(/assets/fonts/text/ElectronicArtsText-Italic.woff2)
+          format("woff");
+        font-weight: 400;
+        font-style: italic;
+      }
+      @font-face {
+        font-family: "ElectronicArtsText";
+        src: url(/assets/fonts/text/ElectronicArtsText-Bold.woff2)
+          format("woff");
+        font-weight: 600;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "ElectronicArtsText";
+        src: url(/assets/fonts/text/ElectronicArtsText-BoldItalic.woff2)
+          format("woff");
+        font-weight: 600;
+        font-style: italic;
+      }
+    </style>
+
+    <title>EA SPORTS FC™ Mobile - EA SPORTS Official Site</title>
+
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="EA SPORTS FC™ Mobile - EA SPORTS Official Site"
+    />
+    <meta
+      property="og:description"
+      content="Build your Ultimate Team and challenge friends in a EA SPORTS FC™ Mobile football game for iOS and Android! Get it on Apple App Store or Google Play."
+    />
+
+    <meta
+      property="og:url"
+      content="https://www.ea.com/games/ea-sports-fc/fc-mobile"
+    />
+
+    <meta property="og:site_name" content="Electronic Arts Inc." />
+
+    <meta
+      property="og:image"
+      content="https://media.contentapi.ea.com/content/dam/ea/fc/fc-24/common/news-fc-mobile/fc-mobile-final-key-art-16-9.png.adapt.crop191x100.1200w.png"
+    />
+
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+
+    <meta
+      name="description"
+      content="Build your Ultimate Team and challenge friends in a EA SPORTS FC™ Mobile football game for iOS and Android! Get it on Apple App Store or Google Play."
+    />
+    <meta name="author" content="Electronic Arts" />
+    <meta property="article:modified_time" content="2023-11-22T00:03:38Z" />
+    <meta property="article:published_time" content="2023-08-10T08:00-07:00" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@ea" />
+    <meta
+      name="twitter:title"
+      content="EA SPORTS FC™ Mobile - EA SPORTS Official Site"
+    />
+    <meta
+      name="twitter:description"
+      content="Build your Ultimate Team and challenge friends in a EA SPORTS FC™ Mobile football game for iOS and Android! Get it on Apple App Store or Google Play."
+    />
+
+    <meta
+      name="twitter:image"
+      content="https://media.contentapi.ea.com/content/dam/ea/fc/fc-24/common/news-fc-mobile/fc-mobile-final-key-art-16-9.png.adapt.crop16x9.1023w.png"
+    />
+
+    <meta name="twitter:creator" content="@ea" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "Article",
+
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://media.contentapi.ea.com/content/dam/ea/fc/fc-24/common/news-fc-mobile/fc-mobile-final-key-art-16-9.png.adapt.crop191x100.1200w.png"
+        },
+
+        "author": {
+          "@type": "Organization",
+          "name": "Electronic Arts",
+          "sameAs": "https://en.wikipedia.org/wiki/Electronic_Arts"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Electronic Arts",
+          "sameAs": "https://en.wikipedia.org/wiki/Electronic_Arts",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://media.contentapi.ea.com/content/dam/ea/EA_logo.png",
+            "width": 60,
+            "height": 60
+          }
+        },
+        "inLanguage": "en",
+        "description": "Build your Ultimate Team and challenge friends in a EA SPORTS FC™ Mobile football game for iOS and Android! Get it on Apple App Store or Google Play.",
+        "datePublished": "2023-08-10T08:00-07:00",
+        "dateModified": "2023-11-22T00:03:38Z",
+        "headline": "EA SPORTS FC™ Mobile - EA SPORTS Official Site",
+        "url": "https://www.ea.com/games/ea-sports-fc/fc-mobile"
+      }
+    </script>
+
+    <script>
+      bazadebezolkohpepadr = "261863130";
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.ea.com/akam/13/f9bb62a"
+      defer
+    ></script>
+  </head>
+  <body unresolved>
+    <custom-style
+      ><style include="ea-shared-styles-base-common"></style
+    ></custom-style>
+    <custom-style
+      ><style include="ea-shared-styles-base-headings"></style
+    ></custom-style>
+    <custom-style
+      ><style include="ea-shared-styles-base-lists"></style
+    ></custom-style>
+    <custom-style
+      ><style include="ea-shared-styles-base-links"></style
+    ></custom-style>
+    <custom-style
+      ><style include="ea-shared-styles-base-images"></style
+    ></custom-style>
+    <custom-style
+      ><style include="ea-shared-styles-typography-headings"></style
+    ></custom-style>
+    <custom-style
+      ><style include="ea-shared-styles-typography-paragraphs"></style
+    ></custom-style>
+    <custom-style
+      ><style include="ea-shared-styles-typography-labels"></style
+    ></custom-style>
+
+    <custom-style>
+      <style>
+        html {
+          --ea-theme-color: #07f468;
+
+          --ea-theme-font-body: CruyffSansReg;
+
+          --ea-theme-cta-font-family: CruyffSansMed;
+
+          --ea-theme-cta-font-size-desktop: 18px;
+
+          --ea-theme-font-header: EAFC CruyffSansExpanded;
+
+          --ea-theme-typographic-headings-font-family: EAFC CruyffSansExpanded;
+
+          --ea-theme-tile-title-font-family: EAFC CruyffSansExpanded;
+
+          --ea-theme-primary-font-family: CruyffSansReg;
+
+          --ea-theme-secondary-font-family: MartaSerif;
+
+          --ea-theme-local-nav-shelf-header-font-family: CruyffSansReg;
+
+          --ea-theme-local-nav-shelf-header-font-size-desktop: 18px;
+
+          --ea-theme-body-line-height-desktop: 1.5;
+
+          --ea-theme-body-line-height-tablet-landscape: 1.5;
+
+          --ea-theme-body-line-height-mobile: 1.65;
+
+          --ea-theme-display-line-height: 0.95;
+
+          --ea-theme-b1-font-size-desktop: 24px;
+
+          --ea-theme-b2-font-size-desktop: 18px;
+
+          --ea-theme-b3-font-size-desktop: 16px;
+
+          --ea-theme-b1-font-size-tablet-landscape: 20px;
+
+          --ea-theme-b2-font-size-tablet-landscape: 18px;
+
+          --ea-theme-b3-font-size-tablet-landscape: 14px;
+
+          --ea-theme-b1-font-size-tablet-portrait: 20px;
+
+          --ea-theme-b2-font-size-tablet-portrait: 18px;
+
+          --ea-theme-b3-font-size-tablet-portrait: 14px;
+
+          --ea-theme-b1-font-size-mobile: 20px;
+
+          --ea-theme-b2-font-size-mobile: 18px;
+
+          --ea-theme-b3-font-size-mobile: 14px;
+
+          --ea-theme-d1-font-size-desktop: 80px;
+
+          --ea-theme-d2-font-size-desktop: 68px;
+
+          --ea-theme-d3-font-size-desktop: 54px;
+
+          --ea-theme-d4-font-size-desktop: 44px;
+
+          --ea-theme-d5-font-size-desktop: 32px;
+
+          --ea-theme-d6-font-size-desktop: 24px;
+
+          --ea-theme-d1-font-size-tablet-landscape: 64px;
+
+          --ea-theme-d2-font-size-tablet-landscape: 54px;
+
+          --ea-theme-d3-font-size-tablet-landscape: 53px;
+
+          --ea-theme-d4-font-size-tablet-landscape: 40px;
+
+          --ea-theme-d5-font-size-tablet-landscape: 32px;
+
+          --ea-theme-d6-font-size-tablet-landscape: 24px;
+
+          --ea-theme-d1-font-size-tablet-portrait: 52px;
+
+          --ea-theme-d2-font-size-tablet-portrait: 46px;
+
+          --ea-theme-d3-font-size-tablet-portrait: 38px;
+
+          --ea-theme-d4-font-size-tablet-portrait: 32px;
+
+          --ea-theme-d5-font-size-tablet-portrait: 22px;
+
+          --ea-theme-d6-font-size-tablet-portrait: 20px;
+
+          --ea-theme-d1-font-size-mobile: 50px;
+
+          --ea-theme-d2-font-size-mobile: 42px;
+
+          --ea-theme-d3-font-size-mobile: 36px;
+
+          --ea-theme-d4-font-size-mobile: 32px;
+
+          --ea-theme-d5-font-size-mobile: 22px;
+
+          --ea-theme-d6-font-size-mobile: 20px;
+
+          --ea-theme-h1-font-size-desktop: 48px;
+
+          --ea-theme-h2-font-size-desktop: 40px;
+
+          --ea-theme-h3-font-size-desktop: 36px;
+
+          --ea-theme-h4-font-size-desktop: 24px;
+
+          --ea-theme-h5-font-size-desktop: 24px;
+
+          --ea-theme-h1-font-size-tablet-landscape: 44px;
+
+          --ea-theme-h2-font-size-tablet-landscape: 36px;
+
+          --ea-theme-h3-font-size-tablet-landscape: 32px;
+
+          --ea-theme-h4-font-size-tablet-landscape: 24px;
+
+          --ea-theme-h5-font-size-tablet-landscape: 24px;
+
+          --ea-theme-h1-font-size-tablet-portrait: 40px;
+
+          --ea-theme-h2-font-size-tablet-portrait: 32px;
+
+          --ea-theme-h3-font-size-tablet-portrait: 28px;
+
+          --ea-theme-h4-font-size-tablet-portrait: 20px;
+
+          --ea-theme-h5-font-size-tablet-portrait: 20px;
+
+          --ea-theme-h1-font-size-mobile: 40px;
+
+          --ea-theme-h2-font-size-mobile: 32px;
+
+          --ea-theme-h3-font-size-mobile: 28px;
+
+          --ea-theme-h4-font-size-mobile: 20px;
+
+          --ea-theme-h5-font-size-mobile: 20px;
+
+          --ea-theme-tabs-background-color: #151616;
+
+          --ea-theme-tabs-selected-type: #161616;
+
+          --ea-theme-tabs-unselected-type: rgba(255, 255, 255, 0.65);
+
+          --ea-theme-tabs-indicator-color: #07f468;
+
+          --ea-theme-tabs-selected-state: #71f469;
+        }
+      </style>
+    </custom-style>
+
+    <ea-elements-loader elements="ea-network-nav, ea-player, ea-type-kit">
+    </ea-elements-loader>
+
+    <ea-network-nav
+      unresolved
+      userData="/user-data"
+      content="//nds-network-nav.ea.com//en-us/network-nav"
+      login-url="/login"
+      logout-url="/logout"
+      hide-logo
+    ></ea-network-nav>
+
+    <ea-elements-loader elements="ea-page-background"> </ea-elements-loader>
+    <ea-page-background unresolved layout="fixed" background-color="none">
+    </ea-page-background>
+
+    <ea-elements-loader elements="ea-local-nav-advanced, ea-link">
+    </ea-elements-loader>
+    <ea-local-nav-advanced
+      aria-label-text="Local"
+      home-text="EA SPORTS FC™ MOBILE"
+      home-tooltip="EA SPORTS FC™ MOBILE"
+      home-link="/en-us/games/ea-sports-fc/fc-mobile"
+      logo-image="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-nav-logo.png"
+      logo-tooltip=""
+      theme="light"
+      shelf-type="band"
+      open-drawer-text="Menu"
+      close-drawer-text="Close"
+      mini
+      unresolved
+    >
+      <a
+        title="EA SPORTS FC™ MOBILE"
+        href="/en-us/games/ea-sports-fc/fc-mobile"
+      >
+        EA SPORTS FC™ MOBILE
+
+        <img
+          src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-nav-logo.png"
+        />
+      </a>
+
+      <ea-link
+        slot="local-nav-shelf-link"
+        class="eapl-local-nav__shelf-link"
+        text-color="dark"
+        link-href="/games/ea-sports-fc/fc-mobile/news"
+        link-title=""
+        link-text="News"
+        unresolved
+      >
+        <a href="/games/ea-sports-fc/fc-mobile/news">News</a>
+      </ea-link>
+
+      <ea-link
+        slot="local-nav-shelf-link"
+        class="eapl-local-nav__shelf-link"
+        text-color="dark"
+        link-href="/games/ea-sports-fc/fc-mobile/guide"
+        link-title=""
+        link-text="Guides"
+        unresolved
+      >
+        <a href="/games/ea-sports-fc/fc-mobile/guide">Guides</a>
+      </ea-link>
+
+      <ea-link
+        slot="local-nav-shelf-link"
+        class="eapl-local-nav__shelf-link"
+        text-color="dark"
+        link-href="https://help.ea.com/en/help-top-issues/?product=fc-mobile"
+        link-title=""
+        link-text="Help"
+        unresolved
+      >
+        <a href="https://help.ea.com/en/help-top-issues/?product=fc-mobile"
+          >Help</a
+        >
+      </ea-link>
+
+      <ea-elements-loader elements="ea-local-nav-shelf-sub-nav">
+      </ea-elements-loader>
+      <ea-local-nav-shelf-sub-nav
+        slot="local-nav-shelf-link"
+        toggle-text="Community"
+        theme="light"
+        type="simple"
+        unresolved
+      >
+        <ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section">
+        </ea-elements-loader>
+        <ea-local-nav-shelf-sub-nav-section
+          title-text=""
+          slot="sub-nav-section"
+          unresolved
+        >
+          <ea-elements-loader
+            elements="ea-local-nav-shelf-sub-nav-section-link"
+          >
+          </ea-elements-loader>
+          <ea-local-nav-shelf-sub-nav-section-link
+            slot="sub-nav-section-link"
+            link-text="Creator Spotlight"
+            link-href="/en-us/games/ea-sports-fc/fc-mobile/creator-spotlight"
+            link-target="_self"
+            unresolved
+          >
+            <a href="/en-us/games/ea-sports-fc/fc-mobile/creator-spotlight"
+              >Creator Spotlight</a
+            >
+          </ea-local-nav-shelf-sub-nav-section-link>
+
+          <ea-elements-loader
+            elements="ea-local-nav-shelf-sub-nav-section-link"
+          >
+          </ea-elements-loader>
+          <ea-local-nav-shelf-sub-nav-section-link
+            slot="sub-nav-section-link"
+            link-text="Forum"
+            link-href="https://answers.ea.com/t5/EA-SPORTS-FC-MOBILE/ct-p/fc-mobile-en "
+            link-target="_self"
+            unresolved
+          >
+            <a
+              href="https://answers.ea.com/t5/EA-SPORTS-FC-MOBILE/ct-p/fc-mobile-en "
+              >Forum</a
+            >
+          </ea-local-nav-shelf-sub-nav-section-link>
+        </ea-local-nav-shelf-sub-nav-section>
+      </ea-local-nav-shelf-sub-nav>
+
+      <ea-link
+        slot="local-nav-shelf-link"
+        class="eapl-local-nav__shelf-link"
+        text-color="dark"
+        link-href="/games/ea-sports-fc/fc-mobile/news/toty"
+        link-title=""
+        link-text="TOTY"
+        unresolved
+      >
+        <a href="/games/ea-sports-fc/fc-mobile/news/toty">TOTY</a>
+      </ea-link>
+
+      <ea-elements-loader elements="ea-link"> </ea-elements-loader>
+      <ea-link
+        slot="local-nav-drawer-link"
+        class="eapl-local-nav__drawer-link"
+        link-href="/games/ea-sports-fc/fc-mobile/news"
+        link-title=""
+        link-text="News"
+        text-color="dark"
+        unresolved
+      >
+        <a href="/games/ea-sports-fc/fc-mobile/news">News</a>
+      </ea-link>
+
+      <ea-elements-loader elements="ea-link"> </ea-elements-loader>
+      <ea-link
+        slot="local-nav-drawer-link"
+        class="eapl-local-nav__drawer-link"
+        link-href="/games/ea-sports-fc/fc-mobile/guide"
+        link-title=""
+        link-text="Guides"
+        text-color="dark"
+        unresolved
+      >
+        <a href="/games/ea-sports-fc/fc-mobile/guide">Guides</a>
+      </ea-link>
+
+      <ea-elements-loader elements="ea-link"> </ea-elements-loader>
+      <ea-link
+        slot="local-nav-drawer-link"
+        class="eapl-local-nav__drawer-link"
+        link-href="https://help.ea.com/en/help-top-issues/?product=fc-mobile"
+        link-title=""
+        link-text="Help"
+        text-color="dark"
+        unresolved
+      >
+        <a href="https://help.ea.com/en/help-top-issues/?product=fc-mobile"
+          >Help</a
+        >
+      </ea-link>
+
+      <ea-elements-loader elements="ea-local-nav-drawer-sub-nav-advanced">
+      </ea-elements-loader>
+      <ea-local-nav-drawer-sub-nav-advanced
+        slot="local-nav-drawer-link"
+        toggle-text="Community"
+        toggle-tooltip=""
+        theme="light"
+        type="simple"
+        unresolved
+      >
+        <ea-elements-loader elements="ea-link"> </ea-elements-loader>
+        <ea-link
+          slot="local-nav-drawer-sub-link"
+          class="eapl-local-nav__drawer-sub-link"
+          link-href="/en-us/games/ea-sports-fc/fc-mobile/creator-spotlight"
+          link-title=""
+          link-text="Creator Spotlight"
+          text-color=""
+          unresolved
+        >
+          <a href="/en-us/games/ea-sports-fc/fc-mobile/creator-spotlight"
+            >Creator Spotlight</a
+          >
+        </ea-link>
+
+        <ea-elements-loader elements="ea-link"> </ea-elements-loader>
+        <ea-link
+          slot="local-nav-drawer-sub-link"
+          class="eapl-local-nav__drawer-sub-link"
+          link-href="https://answers.ea.com/t5/EA-SPORTS-FC-MOBILE/ct-p/fc-mobile-en "
+          link-title=""
+          link-text="Forum"
+          text-color=""
+          unresolved
+        >
+          <a
+            href="https://answers.ea.com/t5/EA-SPORTS-FC-MOBILE/ct-p/fc-mobile-en "
+            >Forum</a
+          >
+        </ea-link>
+      </ea-local-nav-drawer-sub-nav-advanced>
+
+      <ea-elements-loader elements="ea-link"> </ea-elements-loader>
+      <ea-link
+        slot="local-nav-drawer-link"
+        class="eapl-local-nav__drawer-link"
+        link-href="/games/ea-sports-fc/fc-mobile/news/toty"
+        link-title=""
+        link-text="TOTY"
+        text-color="dark"
+        unresolved
+      >
+        <a href="/games/ea-sports-fc/fc-mobile/news/toty">TOTY</a>
+      </ea-link>
+
+      <ea-elements-loader elements="ea-cta-dropdown, ea-hybrid-modal-invoker">
+      </ea-elements-loader>
+
+      <ea-cta-dropdown
+        slot="cta-dropdown"
+        theme=""
+        cta-title-text=""
+        cta-link=""
+        border-color=""
+        fill-color=""
+        text-color=""
+        type=""
+        unresolved
+      >
+      </ea-cta-dropdown>
+
+      <ea-elements-loader elements="ea-local-nav-dropdown">
+      </ea-elements-loader>
+      <ea-local-nav-dropdown
+        slot="local-nav-dropdown"
+        theme=""
+        menu-title=""
+        cta-title-text=""
+        cta-link=""
+        border-color=""
+        fill-color=""
+        text-color=""
+        type=""
+        unresolved
+      >
+      </ea-local-nav-dropdown>
+    </ea-local-nav-advanced>
+
+    <ea-elements-loader elements="ea-spacer"> </ea-elements-loader>
+    <ea-spacer
+      unresolved
+      smallest="93px"
+      small="93px"
+      medium="96px"
+      large="96px"
+      largest="100px"
+    >
+    </ea-spacer>
+
+    <main>
+      <ea-elements-loader elements="ea-page-background"> </ea-elements-loader>
+      <ea-page-background unresolved layout="fixed" background-color="dark">
+      </ea-page-background>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="full-bleed"
+        layout="50:50"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+      >
+        <ea-section-column
+          slot="section-column"
+          indent-left="1"
+          indent-right="1"
+          text-align="center"
+          animations-on-mobile
+          mobile-order="1"
+        >
+          <ea-elements-loader elements="ea-spacer"> </ea-elements-loader>
+          <ea-spacer
+            unresolved
+            smallest="12rem"
+            small="25rem"
+            medium="8rem"
+            large="9rem"
+            largest="8rem"
+          >
+          </ea-spacer>
+
+          <div>
+            <img
+              src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logo-horizontal-hero-md-7x2-xl.png"
+              width="50%"
+            />
+          </div>
+
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <h1 class="d4" style="text-align: center">WELCOME TO THE CLUB</h1>
+          </ea-text>
+
+          <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+          <ea-cta
+            slot="cta"
+            type="standard-rounded"
+            link-text="Launch Trailer"
+            icon="play"
+            fill-color="none"
+            text-color="light"
+            stroke-color="light"
+            target="_self"
+            intent="media"
+            modal-id="trailer"
+            emphasis="primary"
+            unresolved
+          >
+            <a> Launch Trailer </a>
+          </ea-cta>
+
+          <ea-elements-loader elements="ea-spacer"> </ea-elements-loader>
+          <ea-spacer
+            unresolved
+            smallest="1rem"
+            small="1rem"
+            medium="9rem"
+            large="9rem"
+            largest="8rem"
+          >
+          </ea-spacer>
+        </ea-section-column>
+
+        <ea-section-column
+          slot="section-column"
+          text-align="left"
+          mobile-order="2"
+        >
+        </ea-section-column>
+
+        <ea-elements-loader elements="ea-html5-video"> </ea-elements-loader>
+        <ea-html5-video
+          slot="html5-video"
+          webm-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-16x9-s-xs.webm"
+          mp4-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-16x9-s-xs.mp4"
+          webm-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-16x9-s-xs.webm"
+          mp4-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-16x9-s-xs.mp4"
+          webm-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-2x1-m.webm"
+          mp4-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-2x1-m.mp4"
+          webm-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-5x2-l.webm"
+          mp4-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-5x2-l.mp4"
+          webm-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-7x2-xl.webm"
+          mp4-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/fc-mobile-hero-medium-video/fcmobile-hero-medium-gameplay-7x2-xl.mp4"
+          play-in-viewport=""
+          loop=""
+          muted=""
+          unresolved
+        >
+        </ea-html5-video>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-modal"> </ea-elements-loader>
+      <ea-modal
+        modal
+        restore-focus-on-close
+        unresolved
+        id="trailer"
+        theme="dark"
+        type="railed"
+      >
+        <ea-elements-loader elements="ea-youtube"> </ea-elements-loader>
+        <ea-youtube
+          unresolved
+          slot="youtube"
+          video-id="y0v1TIxIxlc"
+          playlist=""
+          default-age-gate=""
+          theme="light"
+          icon-theme="light"
+          autoplay="0"
+          controls="1"
+          rel="0"
+          annotations="1"
+          hide-info="0"
+          age-gate-alignment="center-left"
+          age-gate-message="This video is age-restricted and only available on Youtube."
+          more-link-text="Learn More"
+          more-link-url="https://support.google.com/youtube/answer/2802167?hl=en"
+          watch-link-text="Watch on Youtube"
+          cover-image-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/youtube/59c20d49-4f38-cc77-5978-b8453e5953e7.youtube/subassets/poster.jpg.adapt.crop16x9.320w.jpg"
+          cover-image-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/youtube/59c20d49-4f38-cc77-5978-b8453e5953e7.youtube/subassets/poster.jpg.adapt.crop16x9.767w.jpg"
+          cover-image-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/youtube/59c20d49-4f38-cc77-5978-b8453e5953e7.youtube/subassets/poster.jpg.adapt.crop16x9.1023w.jpg"
+          cover-image-large="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/youtube/59c20d49-4f38-cc77-5978-b8453e5953e7.youtube/subassets/poster.jpg.adapt.crop16x9.1455w.jpg"
+          cover-image-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/youtube/59c20d49-4f38-cc77-5978-b8453e5953e7.youtube/subassets/poster.jpg.adapt.crop16x9.1920w.jpg"
+          cover-image-tooltip=""
+          button-color="dark"
+        >
+          <div itemscope itemtype="http://schema.org/VideoObject">
+            <link
+              itemprop="url"
+              href="https://www.youtube.com/watch?v=y0v1TIxIxlc"
+            />
+
+            <link
+              itemprop="thumbnailUrl"
+              href="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/videos/youtube/59c20d49-4f38-cc77-5978-b8453e5953e7.youtube/subassets/poster.jpg.adapt.crop16x9.1920w.jpg"
+            />
+
+            <iframe src="https://www.youtube.com/embed/y0v1TIxIxlc"></iframe>
+          </div>
+        </ea-youtube>
+      </ea-modal>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="full-bleed"
+        layout="100"
+        background-color="custom"
+        custom-background-value="#07F468"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+      >
+        <ea-section-column
+          slot="section-column"
+          indent-left=""
+          indent-right=""
+          text-align="left"
+          mobile-order="0"
+        >
+          <ea-elements-loader elements="ea-product-conversion">
+          </ea-elements-loader>
+          <ea-product-conversion
+            unresolved
+            text-color="dark"
+            background-color="none"
+            title-text="AVAILABLE NOW ON"
+            spacing-top="medium"
+            spacing-bottom="medium"
+          >
+            <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+            <ea-cta
+              slot="cta"
+              type="image"
+              link-url="https://smarturl.it/fc-mobile-apple"
+              link-text="Download Now"
+              icon="none"
+              fill-color="brand"
+              text-color="light"
+              stroke-color="none"
+              target="_blank"
+              target-os="ios"
+              image="https://media.contentapi.ea.com/content/dam/eacom/app-cta/apple-badge-cta-en.png"
+              alt=""
+              intent="buy"
+              emphasis="primary"
+              unresolved
+            >
+              <a href="https://smarturl.it/fc-mobile-apple"> Download Now </a>
+            </ea-cta>
+
+            <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+            <ea-cta
+              slot="cta"
+              type="image"
+              link-url="https://smarturl.it/fc-mobile-android"
+              link-text="Download Now"
+              icon="none"
+              fill-color="brand"
+              text-color="light"
+              stroke-color="none"
+              target="_blank"
+              target-os="android"
+              image="https://media.contentapi.ea.com/content/dam/eacom/app-cta/google-badge-cta-en.png"
+              alt=""
+              intent="buy"
+              emphasis="primary"
+              unresolved
+            >
+              <a href="https://smarturl.it/fc-mobile-android"> Download Now </a>
+            </ea-cta>
+          </ea-product-conversion>
+        </ea-section-column>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="full-bleed"
+        layout="50:50"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+      >
+        <ea-section-column
+          slot="section-column"
+          indent-left="1"
+          indent-right="1"
+          text-align="center"
+          mobile-order="2"
+        >
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <h1 class="d4" style="text-align: center">NEXT LEVEL GAMEPLAY</h1>
+            <p class="b1" style="text-align: center">
+              Take command of the pitch with new Impact Controls like Power
+              Shot, Knock On, and Hard Tackle, that let you experience the
+              beautiful game on mobile like never before. True Player
+              Personality and more will bring gameplay to a new level.
+            </p>
+          </ea-text>
+        </ea-section-column>
+
+        <ea-section-column
+          slot="section-column"
+          text-align="left"
+          mobile-order="1"
+        >
+          <ea-elements-loader elements="ea-media"> </ea-elements-loader>
+          <ea-media
+            slot="media"
+            text-color="dark"
+            spacing-top="small"
+            spacing-bottom="small"
+            unresolved
+          >
+            <ea-elements-loader elements="ea-html5-video"> </ea-elements-loader>
+            <ea-html5-video
+              slot="html5-video"
+              webm-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.webm"
+              mp4-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.mp4"
+              webm-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.webm"
+              mp4-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.mp4"
+              webm-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.webm"
+              mp4-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.mp4"
+              webm-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.webm"
+              mp4-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.mp4"
+              webm-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.webm"
+              mp4-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-next-level-gameplay-1x1.mp4"
+              autoplay=""
+              loop=""
+              muted=""
+              unresolved
+            >
+            </ea-html5-video>
+          </ea-media>
+        </ea-section-column>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="full-bleed"
+        layout="50:50"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+      >
+        <ea-section-column
+          slot="section-column"
+          text-align="left"
+          mobile-order="1"
+        >
+          <ea-elements-loader elements="ea-media"> </ea-elements-loader>
+          <ea-media
+            slot="media"
+            text-color="dark"
+            spacing-top="small"
+            spacing-bottom="small"
+            unresolved
+          >
+            <ea-elements-loader elements="ea-html5-video"> </ea-elements-loader>
+            <ea-html5-video
+              slot="html5-video"
+              webm-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.webm"
+              mp4-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.mp4"
+              webm-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.webm"
+              mp4-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.mp4"
+              webm-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.webm"
+              mp4-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.mp4"
+              webm-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.webm"
+              mp4-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.mp4"
+              webm-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.webm"
+              mp4-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-locker-room-1x1.mp4"
+              autoplay=""
+              loop=""
+              muted=""
+              unresolved
+            >
+            </ea-html5-video>
+          </ea-media>
+        </ea-section-column>
+
+        <ea-section-column
+          slot="section-column"
+          indent-left="1"
+          indent-right="1"
+          text-align="center"
+          mobile-order="2"
+        >
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <h1 class="d4" style="text-align: center">LOCKER ROOM</h1>
+            <p class="b1" style="text-align: center">
+              Customize your team and players to fit your preferred style.
+              Adjust your star players’ kit numbers and kit appearance in Locker
+              Room, a centralised customization hub. Change the length of their
+              socks, sleeve length, and shirt tucking style in true Locker Room
+              fashion
+            </p>
+          </ea-text>
+        </ea-section-column>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="full-bleed"
+        layout="50:50"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+      >
+        <ea-section-column
+          slot="section-column"
+          indent-left="1"
+          indent-right="1"
+          text-align="center"
+          mobile-order="2"
+        >
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <h1 class="d4" style="text-align: center">
+              VISUAL &amp; AUDIO UPGRADES
+            </h1>
+            <p class="b1" style="text-align: center">
+              Matchday experience is taken to a new level with new Broadcast
+              Package updates that include match intro scenes, a new gameplay
+              camera angle, improved goal replays, refreshed set piece cameras,
+              and added commentary.
+            </p>
+          </ea-text>
+        </ea-section-column>
+
+        <ea-section-column
+          slot="section-column"
+          text-align="left"
+          mobile-order="1"
+        >
+          <ea-elements-loader elements="ea-media"> </ea-elements-loader>
+          <ea-media
+            slot="media"
+            text-color="dark"
+            spacing-top="small"
+            spacing-bottom="small"
+            unresolved
+          >
+            <ea-elements-loader elements="ea-html5-video"> </ea-elements-loader>
+            <ea-html5-video
+              slot="html5-video"
+              webm-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.webm"
+              mp4-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.mp4"
+              webm-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.webm"
+              mp4-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.mp4"
+              webm-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.webm"
+              mp4-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.mp4"
+              webm-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.webm"
+              mp4-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.mp4"
+              webm-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.webm"
+              mp4-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-immersive-broadcast-1x1.mp4"
+              autoplay=""
+              loop=""
+              muted=""
+              unresolved
+            >
+            </ea-html5-video>
+          </ea-media>
+        </ea-section-column>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="full-bleed"
+        layout="50:50"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+      >
+        <ea-section-column
+          slot="section-column"
+          text-align="left"
+          mobile-order="1"
+        >
+          <ea-elements-loader elements="ea-media"> </ea-elements-loader>
+          <ea-media
+            slot="media"
+            text-color="dark"
+            spacing-top="small"
+            spacing-bottom="small"
+            unresolved
+          >
+            <ea-elements-loader elements="ea-image"> </ea-elements-loader>
+            <ea-image
+              unresolved
+              tooltip=""
+              smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.320w.jpg"
+              small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.768w.jpg"
+              medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.1024w.jpg"
+              large="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.1456w.jpg"
+              largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.1920w.jpg"
+              allow-renditions
+              disable-stretching
+              slot="image"
+            >
+              <img
+                src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.320w.jpg"
+                alt=""
+                srcset="
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.320w.jpg   320w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.768w.jpg   768w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.1024w.jpg 1024w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.1456w.jpg 1320w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-train-ut-1x1.jpg.adapt.1920w.jpg 1456w
+                "
+              />
+            </ea-image>
+          </ea-media>
+        </ea-section-column>
+
+        <ea-section-column
+          slot="section-column"
+          indent-left="1"
+          indent-right="1"
+          text-align="center"
+          mobile-order="2"
+        >
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <h1 class="d4" style="text-align: center">
+              TRAIN YOUR ULTIMATE TEAM™
+            </h1>
+            <p class="b1" style="text-align: center">
+              Build an Ultimate Team™ with your favorite footballers and compete
+              in live events. Develop club legends by training your players as
+              you craft your dream XI.
+            </p>
+          </ea-text>
+        </ea-section-column>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="full-bleed"
+        layout="50:50"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+      >
+        <ea-section-column
+          slot="section-column"
+          indent-left="1"
+          indent-right="1"
+          text-align="center"
+          mobile-order="2"
+        >
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <h1 class="d4" style="text-align: center">ELITE SHOOTING SYSTEM</h1>
+            <p class="b1" style="text-align: center">
+              A new revamped shooting system allows impact players to show up on
+              the scoresheet and make their mark. Feel rewarded when you make
+              smart shooting decisions both inside and outside the box, on a
+              cross, or off the volley. Take control of your favourite attackers
+              and rally your team to victory.
+            </p>
+          </ea-text>
+        </ea-section-column>
+
+        <ea-section-column
+          slot="section-column"
+          text-align="left"
+          mobile-order="1"
+        >
+          <ea-elements-loader elements="ea-media"> </ea-elements-loader>
+          <ea-media
+            slot="media"
+            text-color="dark"
+            spacing-top="small"
+            spacing-bottom="small"
+            unresolved
+          >
+            <ea-elements-loader elements="ea-image"> </ea-elements-loader>
+            <ea-image
+              unresolved
+              tooltip=""
+              smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.320w.jpg"
+              small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.768w.jpg"
+              medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.1024w.jpg"
+              large="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.1456w.jpg"
+              largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.1920w.jpg"
+              allow-renditions
+              disable-stretching
+              slot="image"
+            >
+              <img
+                src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.320w.jpg"
+                alt=""
+                srcset="
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.320w.jpg   320w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.768w.jpg   768w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.1024w.jpg 1024w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.1456w.jpg 1320w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-shooting-system-1x1.jpg.adapt.1920w.jpg 1456w
+                "
+              />
+            </ea-image>
+          </ea-media>
+        </ea-section-column>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="full-bleed"
+        layout="50:50"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+      >
+        <ea-section-column
+          slot="section-column"
+          text-align="center"
+          mobile-order="1"
+        >
+          <ea-elements-loader elements="ea-media"> </ea-elements-loader>
+          <ea-media
+            slot="media"
+            text-color="dark"
+            spacing-top="small"
+            spacing-bottom="small"
+            unresolved
+          >
+            <ea-elements-loader elements="ea-html5-video"> </ea-elements-loader>
+            <ea-html5-video
+              slot="html5-video"
+              webm-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.webm"
+              mp4-src-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.mp4"
+              webm-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.webm"
+              mp4-src-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.mp4"
+              webm-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.webm"
+              mp4-src-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.mp4"
+              webm-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.webm"
+              mp4-src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.mp4"
+              webm-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.webm"
+              mp4-src-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-uefacl-1x1.mp4"
+              autoplay=""
+              loop=""
+              muted=""
+              unresolved
+            >
+            </ea-html5-video>
+          </ea-media>
+        </ea-section-column>
+
+        <ea-section-column
+          slot="section-column"
+          indent-left="1"
+          indent-right="1"
+          text-align="center"
+          mobile-order="2"
+        >
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <h1 class="d4" style="text-align: center">UEFA CHAMPIONS LEAGUE</h1>
+            <p class="b1" style="text-align: center">
+              Kick off against teams from club football’s most prestigious
+              competitions – the UEFA Champions League, UEFA Europa League, and
+              UEFA Europa Conference League. Take part in playable live events
+              that correspond with the real-world tournaments throughout the
+              football season to earn special UEFA Champions League, UEFA Europa
+              League, and UEFA Europa Conference League players. Follow every
+              step, from the group stages all the way to the UEFA Champions
+              League Final.
+            </p>
+          </ea-text>
+        </ea-section-column>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="railed"
+        layout="100"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+        background-image-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.320w.jpg"
+        background-image-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.768w.jpg"
+        background-image-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.1024w.jpg"
+        background-image-large="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.1456w.jpg"
+        background-image-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.1920w.jpg"
+        image-tooltip=""
+      >
+        <img
+          src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.320w.jpg"
+          alt=""
+          srcset="
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.320w.jpg   320w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.768w.jpg   768w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.1024w.jpg 1024w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.1456w.jpg 1320w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-authenticity-bg.jpg.adapt.1920w.jpg 1456w
+          "
+        />
+
+        <ea-section-column
+          slot="section-column"
+          text-align="center"
+          mobile-order="0"
+        >
+          <ea-elements-loader elements="ea-spacer"> </ea-elements-loader>
+          <ea-spacer
+            unresolved
+            smallest="64px"
+            small="64px"
+            medium="64px"
+            large="64px"
+            largest="64px"
+          >
+          </ea-spacer>
+
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <h2
+              class="d4"
+              style="color: rgb(112, 244, 104); text-align: center"
+            >
+              THE WORLD'S GAME
+            </h2>
+          </ea-text>
+
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <p class="b1" style="text-align: center">
+              EA SPORTS FC™ Mobile features the ultimate roster of football
+              licenses and includes the world's top players, clubs, and leagues.
+            </p>
+          </ea-text>
+
+          <ea-elements-loader elements="ea-media"> </ea-elements-loader>
+          <ea-media
+            slot="media"
+            text-color="dark"
+            spacing-top="small"
+            spacing-bottom="small"
+            unresolved
+          >
+            <ea-elements-loader elements="ea-image"> </ea-elements-loader>
+            <ea-image
+              unresolved
+              tooltip=""
+              smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.320w.png"
+              small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.768w.png"
+              medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.1024w.png"
+              large="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.1456w.png"
+              largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.1920w.png"
+              allow-renditions
+              disable-stretching
+              slot="image"
+            >
+              <img
+                src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.320w.png"
+                alt=""
+                srcset="
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.320w.png   320w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.768w.png   768w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.1024w.png 1024w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.1456w.png 1320w,
+                  https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc24m-logowall-16x9.png.adapt.1920w.png 1456w
+                "
+              />
+            </ea-image>
+          </ea-media>
+
+          <ea-elements-loader elements="ea-spacer"> </ea-elements-loader>
+          <ea-spacer
+            unresolved
+            smallest="64px"
+            small="64px"
+            medium="64px"
+            large="64px"
+            largest="64px"
+          >
+          </ea-spacer>
+        </ea-section-column>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="railed"
+        layout="100"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+        background-image-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.320w.jpg"
+        background-image-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.768w.jpg"
+        background-image-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.1024w.jpg"
+        background-image-large="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.1456w.jpg"
+        background-image-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.1920w.jpg"
+        image-tooltip=""
+      >
+        <img
+          src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.320w.jpg"
+          alt=""
+          srcset="
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.320w.jpg   320w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.768w.jpg   768w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.1024w.jpg 1024w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.1456w.jpg 1320w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/homepage-rework-nov-9/fc24m-section-bg-beginning-of-future.jpg.adapt.1920w.jpg 1456w
+          "
+        />
+
+        <ea-section-column
+          slot="section-column"
+          text-align="center"
+          mobile-order="0"
+        >
+          <ea-elements-loader elements="ea-spacer"> </ea-elements-loader>
+          <ea-spacer
+            unresolved
+            smallest="64px"
+            small="64px"
+            medium="64px"
+            large="64px"
+            largest="64px"
+          >
+          </ea-spacer>
+
+          <ea-elements-loader elements="ea-text"> </ea-elements-loader>
+          <ea-text unresolved slot="text" text-color="light">
+            <h1
+              class="d5"
+              style="color: rgb(112, 244, 104); text-align: center"
+            >
+              EXPERIENCE THE MOST TRUE-TO-LIFE MOBILE EXPERIENCE OF THE WORLD’S
+              GAME FEATURING FOOTBALL’S BIGGEST STARS AND TEAMS. WITH 15,000+
+              PLAYERS ACROSS 650+ TEAMS AND OVER 30 LEAGUES, EA SPORTS FC™
+              MOBILE IS THE ONLY PLACE ON MOBILE WHERE YOU CAN PLAY THE ICONIC
+              UEFA CHAMPIONS LEAGUE, PREMIER LEAGUE, BUNDESLIGA, AND LALIGA EA
+              SPORTS.
+            </h1>
+          </ea-text>
+
+          <ea-elements-loader elements="ea-spacer"> </ea-elements-loader>
+          <ea-spacer
+            unresolved
+            smallest="64px"
+            small="64px"
+            medium="64px"
+            large="64px"
+            largest="64px"
+          >
+          </ea-spacer>
+        </ea-section-column>
+      </ea-section>
+
+      <ea-elements-loader elements="ea-section"> </ea-elements-loader>
+      <ea-section
+        unresolved
+        slot="section"
+        type="full-bleed"
+        layout="100"
+        background-color="none"
+        background-overflow="hidden"
+        spacing-top="none"
+        spacing-bottom="none"
+        background-image-smallest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.320w.jpg"
+        background-image-small="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.768w.jpg"
+        background-image-medium="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.1024w.jpg"
+        background-image-large="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.1456w.jpg"
+        background-image-largest="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.1920w.jpg"
+        image-tooltip=""
+      >
+        <img
+          src="https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.320w.jpg"
+          alt=""
+          srcset="
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.320w.jpg   320w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.768w.jpg   768w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.1024w.jpg 1024w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.1456w.jpg 1320w,
+            https://media.contentapi.ea.com/content/dam/ea/fc/fc-mobile/common/fc-mobile-newsletter-xl.jpg.adapt.1920w.jpg 1456w
+          "
+        />
+
+        <ea-section-column
+          slot="section-column"
+          indent-left=""
+          indent-right=""
+          text-align="left"
+          mobile-order="0"
+        >
+          <ea-elements-loader elements="ea-newsletter-opt-in">
+          </ea-elements-loader>
+          <ea-newsletter-opt-in
+            api-newsletter-status="/api/newsletter/status"
+            api-newsletter-signup="/api/newsletter/signup"
+            token="OX_fVen59Tv_R2U24Yx4D2563R443KoBaeYa2ltt0j8UVyC8OgF80oDOsLR_Pm00Ux_BoIk-t0EJPsIUVr5KC3UX4kxJ6mfEZwi6PrfAzC7v3ls_dvKW5TbOUf2g_lXaQ2h5TSW6R34wKpR7M4SNHmtjbX7U7A"
+            proposition-title-text="JOIN THE CLUB"
+            email-label-text="Email"
+            email-error-text="Invalid email address"
+            birthdate-label-Text="Birthdate"
+            birthdate-error-Text="Invalid birthdate"
+            birthdate-month-placeholder-text="MM"
+            birthdate-day-placeholder-text="DD"
+            birthdate-year-placeholder-text="YYYY"
+            birthdate-format="mm-dd-yyyy"
+            country-label-text="Location"
+            countries="[{&#34;value&#34;:&#34;US&#34;,&#34;text&#34;:&#34;United States&#34;},{&#34;value&#34;:&#34;AR&#34;,&#34;text&#34;:&#34;Argentina&#34;},{&#34;value&#34;:&#34;AU&#34;,&#34;text&#34;:&#34;Australia&#34;},{&#34;value&#34;:&#34;AT&#34;,&#34;text&#34;:&#34;Austria&#34;},{&#34;value&#34;:&#34;BE&#34;,&#34;text&#34;:&#34;Belgium&#34;},{&#34;value&#34;:&#34;BR&#34;,&#34;text&#34;:&#34;Brazil&#34;},{&#34;value&#34;:&#34;CA&#34;,&#34;text&#34;:&#34;Canada&#34;},{&#34;value&#34;:&#34;CL&#34;,&#34;text&#34;:&#34;Chile&#34;},{&#34;value&#34;:&#34;CN&#34;,&#34;text&#34;:&#34;China&#34;},{&#34;value&#34;:&#34;CO&#34;,&#34;text&#34;:&#34;Colombia&#34;},{&#34;value&#34;:&#34;CZ&#34;,&#34;text&#34;:&#34;Czech Republic&#34;},{&#34;value&#34;:&#34;DK&#34;,&#34;text&#34;:&#34;Denmark&#34;},{&#34;value&#34;:&#34;FI&#34;,&#34;text&#34;:&#34;Finland&#34;},{&#34;value&#34;:&#34;FR&#34;,&#34;text&#34;:&#34;France&#34;},{&#34;value&#34;:&#34;DE&#34;,&#34;text&#34;:&#34;Germany&#34;},{&#34;value&#34;:&#34;GR&#34;,&#34;text&#34;:&#34;Greece&#34;},{&#34;value&#34;:&#34;HK&#34;,&#34;text&#34;:&#34;Hong Kong&#34;},{&#34;value&#34;:&#34;HU&#34;,&#34;text&#34;:&#34;Hungary&#34;},{&#34;value&#34;:&#34;IN&#34;,&#34;text&#34;:&#34;India&#34;},{&#34;value&#34;:&#34;IE&#34;,&#34;text&#34;:&#34;Ireland&#34;},{&#34;value&#34;:&#34;IL&#34;,&#34;text&#34;:&#34;Israel&#34;},{&#34;value&#34;:&#34;IT&#34;,&#34;text&#34;:&#34;Italy&#34;},{&#34;value&#34;:&#34;JP&#34;,&#34;text&#34;:&#34;Japan&#34;},{&#34;value&#34;:&#34;KR&#34;,&#34;text&#34;:&#34;Korea&#34;},{&#34;value&#34;:&#34;MX&#34;,&#34;text&#34;:&#34;Mexico&#34;},{&#34;value&#34;:&#34;NL&#34;,&#34;text&#34;:&#34;Netherlands&#34;},{&#34;value&#34;:&#34;NZ&#34;,&#34;text&#34;:&#34;New Zealand&#34;},{&#34;value&#34;:&#34;NO&#34;,&#34;text&#34;:&#34;Norway&#34;},{&#34;value&#34;:&#34;PL&#34;,&#34;text&#34;:&#34;Poland&#34;},{&#34;value&#34;:&#34;PT&#34;,&#34;text&#34;:&#34;Portugal&#34;},{&#34;value&#34;:&#34;RO&#34;,&#34;text&#34;:&#34;Romania&#34;},{&#34;value&#34;:&#34;RU&#34;,&#34;text&#34;:&#34;Russia&#34;},{&#34;value&#34;:&#34;SA&#34;,&#34;text&#34;:&#34;Saudi Arabia&#34;},{&#34;value&#34;:&#34;SG&#34;,&#34;text&#34;:&#34;Singapore&#34;},{&#34;value&#34;:&#34;SK&#34;,&#34;text&#34;:&#34;Slovakia&#34;},{&#34;value&#34;:&#34;ZA&#34;,&#34;text&#34;:&#34;South Africa&#34;},{&#34;value&#34;:&#34;ES&#34;,&#34;text&#34;:&#34;Spain&#34;},{&#34;value&#34;:&#34;SE&#34;,&#34;text&#34;:&#34;Sweden&#34;},{&#34;value&#34;:&#34;CH&#34;,&#34;text&#34;:&#34;Switzerland&#34;},{&#34;value&#34;:&#34;TW&#34;,&#34;text&#34;:&#34;Taiwan&#34;},{&#34;value&#34;:&#34;TH&#34;,&#34;text&#34;:&#34;Thailand&#34;},{&#34;value&#34;:&#34;TR&#34;,&#34;text&#34;:&#34;Turkey&#34;},{&#34;value&#34;:&#34;UA&#34;,&#34;text&#34;:&#34;Ukraine&#34;},{&#34;value&#34;:&#34;AE&#34;,&#34;text&#34;:&#34;United Arab Emirates&#34;},{&#34;value&#34;:&#34;GB&#34;,&#34;text&#34;:&#34;United Kingdom&#34;}]"
+            edit-profile-text="edit"
+            edit-profile-link="https://myaccount.ea.com/cp-ui/aboutme/index?locale=en_US"
+            connected-platforms-title-text="Your Connected Platforms."
+            connected-platforms-more-text="See Connected Platforms"
+            connected-platforms-more-link="https://myaccount.ea.com/cp-ui/aboutme/index?locale=en_US"
+            connected-platforms-help-text="How do I add accounts?"
+            connected-platforms-help-link="https://help.ea.com/en-ca/help/account/linking-your-origin-account-with-your-psn-id-and-gamertag/"
+            submit-text="Sign Up"
+            sign-in-cta-text="Sign In and Join"
+            sign-in-cta-link="/login"
+            sign-up-cta-text="Sign Up"
+            success-title-text="You&#x27;ve successfully signed up."
+            already-title-text="You&#x27;ve already signed up"
+            ineligible-title-text="Ineligible"
+            error-title-text="Error"
+            error-cta-text="Refresh Page"
+            error-cta-link="."
+            type="dedicated"
+            theme="light"
+            input-background-color="none"
+            background-color="none"
+            submit-text-color="dark"
+            spacing-bottom="none"
+            spacing-top="none"
+            preferences
+            unresolved
+          >
+            <ea-elements-loader elements="ea-connected-accounts">
+            </ea-elements-loader>
+            <ea-connected-accounts
+              slot="context-connected-accounts"
+              cta-text="See Connected Platforms"
+              cta-link="https://myaccount.ea.com/cp-ui/aboutme/index?locale=en_US"
+              text-color="light"
+              spacing-bottom="none"
+              spacing-top="none"
+              unresolved
+            ></ea-connected-accounts>
+
+            <ea-elements-loader elements="ea-connected-accounts">
+            </ea-elements-loader>
+            <ea-connected-accounts
+              slot="already-signed-up-connected-accounts"
+              cta-text="See Connected Platforms"
+              cta-link="https://myaccount.ea.com/cp-ui/aboutme/index?locale=en_US"
+              text-color="light"
+              spacing-bottom="none"
+              spacing-top="none"
+              unresolved
+            ></ea-connected-accounts>
+
+            <ea-elements-loader elements="ea-input"> </ea-elements-loader>
+            <ea-input
+              slot="email-field"
+              id="Email"
+              type="email"
+              name="email"
+              required
+              background-color="none"
+              text-color="light"
+              theme="light"
+              label-text="Email"
+              error-text="Invalid email address"
+              border-type="standard-rounded"
+              unresolved
+            ></ea-input>
+
+            <ea-elements-loader elements="ea-date-field"> </ea-elements-loader>
+            <ea-date-field
+              slot="birthdate-field"
+              id="DateOfBirth"
+              name="birthdate"
+              error-text="Invalid birthdate"
+              text-color="light"
+              background-color="none"
+              month-placeholder="MM"
+              day-placeholder="DD"
+              year-placeholder="YYYY"
+              label-text="Birthdate"
+              required
+              border-type="standard-rounded"
+              unresolved
+            >
+            </ea-date-field>
+
+            <ea-elements-loader elements="ea-select"> </ea-elements-loader>
+            <ea-select
+              unresolved
+              slot="country-field"
+              id="Country"
+              theme="light"
+              background-color="none"
+              label-text="Location"
+              value="US"
+              border-type="standard-rounded"
+            >
+              <ea-select-option slot="select-option" value="US">
+                United States
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="AR">
+                Argentina
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="AU">
+                Australia
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="AT">
+                Austria
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="BE">
+                Belgium
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="BR">
+                Brazil
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="CA">
+                Canada
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="CL">
+                Chile
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="CN">
+                China
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="CO">
+                Colombia
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="CZ">
+                Czech Republic
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="DK">
+                Denmark
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="FI">
+                Finland
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="FR">
+                France
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="DE">
+                Germany
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="GR">
+                Greece
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="HK">
+                Hong Kong
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="HU">
+                Hungary
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="IN">
+                India
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="IE">
+                Ireland
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="IL">
+                Israel
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="IT">
+                Italy
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="JP">
+                Japan
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="KR">
+                Korea
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="MX">
+                Mexico
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="NL">
+                Netherlands
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="NZ">
+                New Zealand
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="NO">
+                Norway
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="PL">
+                Poland
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="PT">
+                Portugal
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="RO">
+                Romania
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="RU">
+                Russia
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="SA">
+                Saudi Arabia
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="SG">
+                Singapore
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="SK">
+                Slovakia
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="ZA">
+                South Africa
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="ES">
+                Spain
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="SE">
+                Sweden
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="CH">
+                Switzerland
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="TW">
+                Taiwan
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="TH">
+                Thailand
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="TR">
+                Turkey
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="UA">
+                Ukraine
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="AE">
+                United Arab Emirates
+              </ea-select-option>
+
+              <ea-select-option slot="select-option" value="GB">
+                United Kingdom
+              </ea-select-option>
+            </ea-select>
+
+            <ea-elements-loader elements="ea-checkbox"> </ea-elements-loader>
+            <ea-checkbox
+              slot="opt-in-field"
+              id="LegalOptIn"
+              name="legalOptin"
+              required
+              text-color="light"
+              unresolved
+            >
+              I can withdraw my consent at any time by changing my
+              <a
+                adhocenable="false"
+                href="https://myaccount.ea.com/cp-ui/aboutme/index"
+                >email preferences</a
+              >&nbsp;in my EA Account (if I have one associated with this email
+              address), by clicking unsubscribe at the base of any email that I
+              receive,&nbsp;or by contacting EA’s Data Protection officer by
+              visiting
+              <a
+                adhocenable="false"
+                href="https://www.ea.com/en-gb/legal/privacy-portal"
+                target="_blank"
+                >https://www.ea.com/legal/privacy-portal</a
+              >.
+            </ea-checkbox>
+
+            <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+            <ea-cta
+              slot="sign-in-cta"
+              type="standard-rounded"
+              link-url="/login"
+              link-text="Sign In and Join"
+              fill-color="brand"
+              text-color="dark"
+              unresolved
+            >
+              <a href="/login"> Sign In and Join </a>
+            </ea-cta>
+
+            <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+            <ea-cta
+              slot="sign-up-cta"
+              type="standard-rounded"
+              link-text="Sign Up"
+              fill-color="brand"
+              text-color="dark"
+              unresolved
+            >
+              <a> Sign Up </a>
+            </ea-cta>
+
+            <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+            <ea-cta
+              slot="success-cta"
+              type="standard-rounded"
+              fill-color="brand"
+              text-color="dark"
+              unresolved
+            >
+              <a> </a>
+            </ea-cta>
+
+            <ea-elements-loader elements="ea-form-errors"> </ea-elements-loader>
+            <ea-form-errors slot="form-errors" unresolved> </ea-form-errors>
+
+            <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+            <ea-cta
+              slot="double-opt-in-cta"
+              type="standard-rounded"
+              fill-color="brand"
+              text-color="dark"
+              unresolved
+            >
+              <a> </a>
+            </ea-cta>
+
+            <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+            <ea-cta
+              slot="already-cta"
+              type="standard-rounded"
+              fill-color="brand"
+              text-color="dark"
+              unresolved
+            >
+              <a> </a>
+            </ea-cta>
+
+            <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+            <ea-cta
+              slot="ineligible-cta"
+              type="standard-rounded"
+              fill-color="brand"
+              text-color="dark"
+              unresolved
+            >
+              <a> </a>
+            </ea-cta>
+
+            <ea-elements-loader elements="ea-cta"> </ea-elements-loader>
+            <ea-cta
+              slot="error-cta"
+              type="standard-rounded"
+              link-url="."
+              link-text="Refresh Page"
+              fill-color="brand"
+              text-color="dark"
+              unresolved
+            >
+              <a href="."> Refresh Page </a>
+            </ea-cta>
+
+            <ea-elements-loader elements="ea-submit"> </ea-elements-loader>
+            <ea-submit
+              unresolved
+              slot="sign-up-submit"
+              value-text="Sign Up"
+              text-color="dark"
+              type="standard-rounded"
+            ></ea-submit>
+
+            <newsletter-opt-in-proposition-copy-text
+              slot="newsletter-opt-in-proposition-copy-text"
+            >
+              <p>
+                Already have an EA Account?&nbsp;<a
+                  href="https://myaccount.ea.com/cp-ui/emailpreferences/index"
+                  >Check your Email Preferences here.</a
+                >
+              </p>
+              <p>
+                Join the Club today to receive the latest EA SPORTS FC™
+                MOBILE&nbsp;news, updates, behind-the-scenes content, exclusive
+                offers, and more (including other EA news, products, events, and
+                promotions) by email.
+              </p>
+            </newsletter-opt-in-proposition-copy-text>
+
+            <newsletter-opt-in-sign-in-copy-text
+              slot="newsletter-opt-in-sign-in-copy-text"
+            >
+              <p>
+                You must sign in and sign up for EA SPORTS FC and EA emails
+                first.
+              </p>
+            </newsletter-opt-in-sign-in-copy-text>
+
+            <newsletter-opt-in-sign-up-copy-text
+              slot="newsletter-opt-in-sign-up-copy-text"
+            >
+              <p>You must sign up for the EA SPORTS FC newsletter first.</p>
+            </newsletter-opt-in-sign-up-copy-text>
+
+            <newsletter-opt-in-success-copy-text
+              slot="newsletter-opt-in-success-copy-text"
+            >
+              <p>
+                Welcome to The World's Game. You're signed up for the latest EA
+                SPORTS FC and EA news and updates, including your invite to join
+                the Club in July.&nbsp;Unsubscribe at any time by changing your
+                <a
+                  href="https://myaccount.ea.com/cp-ui/aboutme/index?locale=en_US"
+                  >email preferences</a
+                >.
+              </p>
+            </newsletter-opt-in-success-copy-text>
+
+            <newsletter-opt-in-already-copy-text
+              slot="newsletter-opt-in-already-copy-text"
+            >
+              <p>
+                You’ve already signed up for EA SPORTS FC newsletters with the
+                above email. Please check your spam folder for the above email.
+                If you still have troubles receiving the emails, please
+                <a href="https://help.ea.com/en-gb/contact-us/">contact EA</a>.
+              </p>
+            </newsletter-opt-in-already-copy-text>
+
+            <newsletter-opt-in-ineligible-copy-text
+              slot="newsletter-opt-in-ineligible-copy-text"
+            >
+              <p>Sorry, you are ineligible to sign up for this newsletter.</p>
+            </newsletter-opt-in-ineligible-copy-text>
+
+            <newsletter-opt-in-error-copy-text
+              slot="newsletter-opt-in-error-copy-text"
+            >
+              <p>Sorry, something has gone wrong. Please try again later.</p>
+            </newsletter-opt-in-error-copy-text>
+          </ea-newsletter-opt-in>
+        </ea-section-column>
+      </ea-section>
+
+      <div>
+        <style>
+          .asset-first .eapl-section-column-50:nth-of-type(2),
+          .copy-first .eapl-section-column-50:nth-of-type(1),
+          .copy-copy .eapl-section-column-50 {
+            width: 90%;
+            margin: 0 auto;
+            padding-bottom: 3rem;
+          }
+
+          @media screen and (min-width: 768px) {
+            ea-section ea-section-column.eapl-section-column-50 {
+              align-self: center;
+              margin: 0;
+              width: 50%;
+              overflow: hidden;
+            }
+
+            .asset-first .eapl-section-column-50:nth-of-type(2),
+            .copy-first .eapl-section-column-50:nth-of-type(1),
+            .copy-copy .eapl-section-column-50 {
+              padding: 0 2rem;
+              margin: 0;
+              width: 50%;
+            }
+            .dx-video-asset ea-media {
+              margin-bottom: -10px;
+            }
+          }
+          @media screen and (min-width: 1024px) {
+            .asset-first .eapl-section-column-50:nth-of-type(2),
+            .copy-first .eapl-section-column-50:nth-of-type(1),
+            .copy-copy .eapl-section-column-50 {
+              padding: 0 6rem;
+            }
+          }
+        </style>
+      </div>
+
+      <div>
+        <style>
+          ea-section-column.eapl-section-column-100 img,
+          ea-section-column.eapl-section-column-50 img,
+          ea-section-column.eapl-section-column-66 img {
+            max-width: 100%;
+          }
+        </style>
+      </div>
+
+      <div>
+        <style>
+          .dx__anchor-nav {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            align-content: center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+          }
+
+          .dx__anchor-nav__link {
+            display: flex;
+            align-items: center;
+            font-family: var(--ea-theme-secondary-font-family);
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            line-height: 1.1;
+            font-weight: bold;
+            text-align: center;
+            padding: 0 2rem;
+            margin: 0;
+            border-right: 1px solid var(--dx-anchor-nav-separator-color);
+            white-space: nowrap;
+          }
+
+          .dx__anchor-nav__link::before {
+            content: "";
+          }
+
+          .dx__anchor-nav__link:last-child {
+            border: none;
+          }
+
+          .dx__anchor-nav__link a {
+            text-decoration: none;
+            line-height: 1;
+            transition: linear all 0.25s;
+            webkit-transition: all 0.25s linear;
+            moz-transition: all 0.25s linear;
+            ms-transition: all 0.25s linear;
+            o-transition: all 0.25s linear;
+            color: var(--dx-anchor-nav-color);
+          }
+
+          .dx__anchor-nav__link a:hover {
+            transform: translatey(-2px);
+            color: var(--dx-anchor-nav-hover-color);
+          }
+
+          @media only screen and (max-width: 1158px) {
+            .dx__anchor-nav__link {
+              font-size: 1rem;
+              padding: 0 1.5rem;
+            }
+          }
+
+          @media only screen and (max-width: 960px) {
+            .dx__anchor-nav__link {
+              font-size: 1rem;
+              padding: 0 1rem;
+            }
+          }
+
+          @media only screen and (max-width: 846px) {
+            .dx__anchor-nav__link {
+              font-size: 0.8rem;
+              padding: 0 1rem;
+            }
+          }
+
+          @media only screen and (max-width: 767px) {
+            .dx__anchor-nav {
+              flex-direction: column;
+            }
+
+            .dx__anchor-nav__link {
+              display: block;
+              text-transform: uppercase;
+              font-size: 1.125rem;
+              letter-spacing: 0.05rem;
+              text-align: center;
+              padding: 14px 0;
+              border: none;
+              border-bottom: 1px solid var(--dx-anchor-nav-separator-color);
+            }
+          }
+        </style>
+      </div>
+
+      <div>
+        <style>
+          .ea-play-section {
+            background: rgb(13, 16, 66);
+            background: linear-gradient(
+              60deg,
+              rgba(13, 16, 66, 1) 0%,
+              rgba(13, 16, 66, 1) 50%,
+              rgba(255, 71, 71, 1) 100%
+            );
+            border: 3px solid rgb(255, 255, 255);
+            border-radius: 3rem;
+            width: 98%;
+            margin: 3rem auto;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+          }
+        </style>
+      </div>
+
+      <div style="display: none"></div>
+    </main>
+    <footer role="contentinfo">
+      <ea-elements-loader
+        elements="ea-local-footer, ea-local-links, ea-local-link, ea-social-links, ea-social-link, ea-hybrid-regional-rating"
+      >
+      </ea-elements-loader>
+      <ea-local-footer
+        theme="light"
+        sal-game-slug="ea-sports-fc-24"
+        rating-lang="en"
+        unresolved
+      >
+        <ea-local-links
+          slot="local-links"
+          title-text="FC MOBILE"
+          text-color="light"
+          unresolved
+        >
+          <ea-local-link
+            slot="local-link"
+            link-url="/en-us/games/ea-sports-fc/fc-mobile"
+            link-title="Home"
+            link-text="Home"
+            text-color="light"
+            unresolved
+          >
+            <a href="/en-us/games/ea-sports-fc/fc-mobile" title="Home">Home</a>
+          </ea-local-link>
+
+          <ea-local-link
+            slot="local-link"
+            link-url="/en-us/games/ea-sports-fc/fc-mobile/news"
+            link-title="News"
+            link-text="News"
+            text-color="light"
+            unresolved
+          >
+            <a href="/en-us/games/ea-sports-fc/fc-mobile/news" title="News"
+              >News</a
+            >
+          </ea-local-link>
+
+          <ea-local-link
+            slot="local-link"
+            link-url="https://help.ea.com/en/help-top-issues/?product=fc-mobile"
+            link-title="Help"
+            link-text="Help"
+            text-color="light"
+            unresolved
+          >
+            <a
+              href="https://help.ea.com/en/help-top-issues/?product=fc-mobile"
+              title="Help"
+              >Help</a
+            >
+          </ea-local-link>
+
+          <ea-local-link
+            slot="local-link"
+            link-url="https://answers.ea.com/t5/EA-SPORTS-FC-MOBILE/ct-p/fc-mobile-en "
+            link-title="Forums"
+            link-text="Forum"
+            text-color="light"
+            unresolved
+          >
+            <a
+              href="https://answers.ea.com/t5/EA-SPORTS-FC-MOBILE/ct-p/fc-mobile-en "
+              title="Forums"
+              >Forum</a
+            >
+          </ea-local-link>
+        </ea-local-links>
+
+        <ea-social-links
+          slot="social-links"
+          text-color="light"
+          title-text="Follow Us"
+          unresolved
+        >
+          <ea-social-link
+            slot="social-link"
+            link-url="https://twitter.com/EASFCMOBILE"
+            link-title="Twitter"
+            link-target="_blank"
+            text-color="light"
+            social-network="twitter"
+            unresolved
+          >
+            <a href="https://twitter.com/EASFCMOBILE" title="Twitter"
+              >twitter</a
+            >
+          </ea-social-link>
+
+          <ea-social-link
+            slot="social-link"
+            link-url="https://www.instagram.com/easfcmobile/"
+            link-title="Instagram"
+            link-target="_blank"
+            text-color="light"
+            social-network="instagram"
+            unresolved
+          >
+            <a href="https://www.instagram.com/easfcmobile/" title="Instagram"
+              >instagram</a
+            >
+          </ea-social-link>
+
+          <ea-social-link
+            slot="social-link"
+            link-url="https://www.facebook.com/EASFCMobile/"
+            link-title="Facebook"
+            link-target="_blank"
+            text-color="light"
+            social-network="facebook"
+            unresolved
+          >
+            <a href="https://www.facebook.com/EASFCMobile/" title="Facebook"
+              >facebook</a
+            >
+          </ea-social-link>
+
+          <ea-social-link
+            slot="social-link"
+            link-url="https://www.youtube.com/@EASFCMOBILE"
+            link-title="YouTube"
+            link-target="_blank"
+            text-color="light"
+            social-network="youtube"
+            unresolved
+          >
+            <a href="https://www.youtube.com/@EASFCMOBILE" title="YouTube"
+              >youtube</a
+            >
+          </ea-social-link>
+
+          <ea-social-link
+            slot="social-link"
+            link-url="https://www.twitch.tv/easfcmobile"
+            link-title="Twitch"
+            link-target="_blank"
+            text-color="light"
+            social-network="twitch"
+            unresolved
+          >
+            <a href="https://www.twitch.tv/easfcmobile" title="Twitch"
+              >twitch</a
+            >
+          </ea-social-link>
+        </ea-social-links>
+
+        <ea-elements-loader
+          elements="ea-hybrid-regional-rating"
+        ></ea-elements-loader>
+
+        <ea-hybrid-regional-rating
+          slug="ea-sports-fc-24"
+          slot="regional-rating"
+          lang="en"
+        >
+        </ea-hybrid-regional-rating>
+      </ea-local-footer>
+
+      <ea-elements-loader
+        elements="ea-network-footer, ea-network-legal, ea-link, ea-content-loader"
+      >
+      </ea-elements-loader>
+      <ea-network-footer
+        theme="dark"
+        logo-image="https://media.contentapi.ea.com/content/dam/eacom/en-us/common/ea-1-1b-medallion-mediumgray.png"
+        logo-tooltip=""
+        logo-link-url="https://www.ea.com"
+        logo-link-text="EA"
+        logo-link-tooltip="EA"
+        unresolved
+      >
+        <img
+          src="https://media.contentapi.ea.com/content/dam/eacom/en-us/common/ea-1-1b-medallion-mediumgray.png"
+          alt=""
+        />
+
+        <ea-link
+          slot="link"
+          link-href="/en-us/games"
+          link-title="Browse Games"
+          link-text="Browse Games"
+          text-color="dark"
+          unresolved
+        >
+          <a href="/en-us/games" title="Browse Games">Browse Games</a>
+        </ea-link>
+
+        <ea-link
+          slot="link"
+          link-href="/en-us/news"
+          link-title="Latest News"
+          link-text="Latest News"
+          text-color="dark"
+          unresolved
+        >
+          <a href="/en-us/news" title="Latest News">Latest News</a>
+        </ea-link>
+
+        <ea-link
+          slot="link"
+          link-href="https://help.ea.com/en/"
+          link-title="Help Center"
+          link-text="Help Center"
+          text-color="dark"
+          unresolved
+        >
+          <a href="https://help.ea.com/en/" title="Help Center">Help Center</a>
+        </ea-link>
+
+        <ea-link
+          slot="link"
+          link-href="/en-us/forums"
+          link-title="EA Forums"
+          link-text="EA Forums"
+          text-color="dark"
+          unresolved
+        >
+          <a href="/en-us/forums" title="EA Forums">EA Forums</a>
+        </ea-link>
+
+        <ea-link
+          slot="link"
+          link-href="/en-us/about"
+          link-title="About Us"
+          link-text="About Us"
+          text-color="dark"
+          unresolved
+        >
+          <a href="/en-us/about" title="About Us">About Us</a>
+        </ea-link>
+
+        <ea-link
+          slot="link"
+          link-href="/en-us/careers"
+          link-title="Careers"
+          link-text="Careers"
+          text-color="dark"
+          unresolved
+        >
+          <a href="/en-us/careers" title="Careers">Careers</a>
+        </ea-link>
+
+        <ea-elements-loader elements="ea-regional-pricing-selector">
+        </ea-elements-loader>
+        <ea-regional-pricing-selector
+          slot="regional-pricing-selector"
+          theme="dark"
+          label-text="Regional Pricing"
+          unresolved
+        >
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="AT"
+            >Austria</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="BE"
+            >Belgium</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="BG"
+            >Bulgaria</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="HR"
+            >Croatia</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="CY"
+            >Cyprus</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="CZ"
+            >Czech Republic</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="DK"
+            >Denmark</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="EE"
+            >Estonia</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="FI"
+            >Finland</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="FR"
+            >France</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="DE"
+            >Germany</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="GR"
+            >Greece</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="HU"
+            >Hungary</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="IS"
+            >Iceland</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="IE"
+            >Ireland</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="IT"
+            >Italy</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="LV"
+            >Latvia</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="LI"
+            >Liechtenstein</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="LT"
+            >Lithuania</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="LU"
+            >Luxembourg</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="MT"
+            >Malta</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="NL"
+            >Netherlands</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="NO"
+            >Norway</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="PL"
+            >Poland</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="PT"
+            >Portugal</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="RO"
+            >Romania</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="SK"
+            >Slovakia</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="SL"
+            >Slovenia</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="ES"
+            >Spain</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="SE"
+            >Sweden</ea-regional-pricing-selector-option
+          >
+
+          <ea-regional-pricing-selector-option
+            slot="regional-pricing-selector-option"
+            value="CH"
+            >Switzerland</ea-regional-pricing-selector-option
+          >
+        </ea-regional-pricing-selector>
+
+        <ea-elements-loader elements="ea-locale-selector"> </ea-elements-loader>
+        <ea-locale-selector
+          slot="locale-selector"
+          theme="dark"
+          value="en-us"
+          label-text="Language"
+          unresolved
+        >
+          <ea-locale-selector-option slot="locale-selector-option" value="en-us"
+            >United States</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="en-gb"
+            >United Kingdom</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="ar-sa"
+            >العربية</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="en-au"
+            >Australia</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="pt-br"
+            >Brasil</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="zh-hk"
+            >繁體中文(香港)</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="cs-cz"
+            >Česká republika</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="da-dk"
+            >Danmark</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="de-de"
+            >Deutschland</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="es-es"
+            >España</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="fr-fr"
+            >France</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="it-it"
+            >Italia</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="ja-jp"
+            >日本</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="ko-kr"
+            >대한민국</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="es-mx"
+            >México</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="nl-nl"
+            >Nederland</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="nb-no"
+            >Norge</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="pl-pl"
+            >Polska</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="ro-ro"
+            >Română</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="ru-ru"
+            >Россия</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="sv-se"
+            >Sverige</ea-locale-selector-option
+          >
+
+          <ea-locale-selector-option slot="locale-selector-option" value="tr-tr"
+            >Türkiye</ea-locale-selector-option
+          >
+        </ea-locale-selector>
+
+        <ea-network-legal
+          slot="network-legal"
+          copyright-text="© 2024 Electronic Arts Inc."
+          text-color="dark"
+          unresolved
+        >
+          <ea-link
+            slot="link"
+            link-href="http://www.ea.com/en-us/legal"
+            link-title="Legal &amp; Privacy"
+            link-text="Legal &amp; Privacy"
+            text-color="dark"
+            unresolved
+          >
+            <a href="http://www.ea.com/en-us/legal" title="Legal &amp; Privacy"
+              >Legal &amp; Privacy</a
+            >
+          </ea-link>
+
+          <ea-link
+            slot="link"
+            link-href="http://www.ea.com/en-us/service-updates"
+            link-title="Online Service Updates"
+            link-text="Online Service Updates"
+            text-color="dark"
+            unresolved
+          >
+            <a
+              href="http://www.ea.com/en-us/service-updates"
+              title="Online Service Updates"
+              >Online Service Updates</a
+            >
+          </ea-link>
+
+          <ea-link
+            slot="link"
+            link-href="https://www.ea.com/en-us/terms-of-service"
+            link-title="User Agreement"
+            link-text="User Agreement"
+            text-color="dark"
+            unresolved
+          >
+            <a
+              href="https://www.ea.com/en-us/terms-of-service"
+              title="User Agreement"
+              >User Agreement</a
+            >
+          </ea-link>
+
+          <ea-link
+            slot="link"
+            link-href="https://www.ea.com/legal/privacy-and-cookie-policy"
+            link-title="Privacy &amp; Cookie Policy (Your Privacy Rights)"
+            link-text="Privacy &amp; Cookie Policy (Your Privacy Rights)"
+            text-color="dark"
+            unresolved
+          >
+            <a
+              href="https://www.ea.com/legal/privacy-and-cookie-policy"
+              title="Privacy &amp; Cookie Policy (Your Privacy Rights)"
+              >Privacy &amp; Cookie Policy (Your Privacy Rights)</a
+            >
+          </ea-link>
+
+          <ea-content-loader
+            slot="link"
+            content-url="https://www.ea.com/ccpa/footer-link"
+          >
+          </ea-content-loader>
+        </ea-network-legal>
+
+        <ea-elements-loader elements="ea-truste"> </ea-elements-loader>
+
+        <script async>
+          function createElement(id, hidden) {
+            const element = document.createElement("div");
+
+            element.id = id;
+            element.hidden = hidden;
+
+            return element;
+          }
+
+          function createScriptTag() {
+            const script = document.createElement("script");
+            let src =
+              `//consent.trustarc.com/notice?` +
+              `domain=ea.com&c=teconsent&js=nj&noticeType=bb&text=true&gtm=1&pn=1`;
+
+            if (shouldAutoShowCookiePreferences()) {
+              src = src + "&behavior=expressed";
+            }
+
+            script.src = src;
+            script.setAttribute("crossorigin", "");
+
+            return script;
+          }
+
+          function shouldAutoShowCookiePreferences() {
+            const showCookiePreferencesParam = "show=cookiePreferences";
+            const urlSearchParams = window.location.search.slice(1).split("&");
+
+            return urlSearchParams.includes(showCookiePreferencesParam);
+          }
+
+          function isLocalNDS(componentUrlPrefix) {
+            return componentUrlPrefix && componentUrlPrefix.includes("local");
+          }
+
+          function isNDSBranch(componentUrlPrefix) {
+            return componentUrlPrefix && componentUrlPrefix.includes("branch");
+          }
+
+          function isNDSVersionGreaterOrEqual(componentUrlPrefix) {
+            let ndsVersion =
+              componentUrlPrefix &&
+              componentUrlPrefix.match("/release\/([^\/]*)/")[1];
+            let isGreaterOrEqual =
+              ndsVersion &&
+              ndsVersion.localeCompare("4.40.5", undefined, {
+                numeric: true,
+                sensitivity: "base",
+              });
+
+            return isGreaterOrEqual >= 0;
+          }
+
+          const componentUrlPrefix = window.nds.componentUrlPrefix;
+
+          /**
+           * Check for backwards compatibility with NDS version greater or equal to when TrustArc was integrated
+           */
+          if (
+            isLocalNDS(componentUrlPrefix) ||
+            isNDSBranch(componentUrlPrefix) ||
+            isNDSVersionGreaterOrEqual(componentUrlPrefix)
+          ) {
+            const trustArcScript = createScriptTag();
+            const elements = document.createDocumentFragment();
+
+            elements.appendChild(createElement("consent_blackbar", false));
+            elements.appendChild(createElement("teconsent", true));
+            elements.appendChild(trustArcScript);
+
+            document.body.appendChild(elements);
+          }
+        </script>
+        <ea-truste unresolved slot="truste" domain="ea.com">
+          <div>
+            <a
+              href="//privacy.truste.com/privacy-seal/validation?rid=f1a11c5d-0232-4077-8498-2e69a38c1335"
+              target="_blank"
+            >
+              <img
+                style="border: none"
+                src="//privacy-policy.truste.com/privacy-seal/seal?rid=f1a11c5d-0232-4077-8498-2e69a38c1335"
+                alt="TRUSTe"
+              />
+            </a>
+          </div>
+        </ea-truste>
+      </ea-network-footer>
+    </footer>
+    <ea-player player-endpoint="/user-data"></ea-player>
+
+    <ea-elements-loader elements="ea-modal"> </ea-elements-loader>
+    <ea-modal
+      modal
+      restore-focus-on-close
+      unresolved
+      id="eacomagegate"
+      theme="dark"
+    >
+      <ea-elements-loader elements="ea-age-gate"> </ea-elements-loader>
+      <ea-age-gate
+        unresolved
+        slot="age-gate"
+        age-gate-id="eacomagegate"
+        age="18"
+        error="You are not eligible to view this content."
+        message="Please provide your birth date. "
+      >
+        <ea-elements-loader elements="ea-date-field"> </ea-elements-loader>
+        <ea-date-field
+          slot="date-field"
+          type="date"
+          text-color="light"
+          month-placeholder="MM"
+          day-placeholder="DD"
+          year-placeholder="YYYY"
+          label-text="Enter your birthdate"
+          unresolved
+        >
+        </ea-date-field>
+
+        <ea-elements-loader elements="ea-submit"> </ea-elements-loader>
+        <ea-submit
+          unresolved
+          slot="submit"
+          value-text="Submit"
+          text-color="light"
+        ></ea-submit>
+      </ea-age-gate>
+    </ea-modal>
+
+    <script src="//pl.ea.com/release/4.66.3/elements/browser-support.min.js"></script>
+    <script>
+      eaBrowserSupport.requiredFeatures = "picture";
+      eaBrowserSupport.requiredHeading = "Sorry, this browser is not supported";
+      eaBrowserSupport.requiredText =
+        "Please download a supported browser to view this webpage.";
+      eaBrowserSupport.recommendedFeatures = "cssgrid";
+      eaBrowserSupport.recommendedText =
+        "This browser is not recommended and the webpage may not display properly.";
+      eaBrowserSupport.ctas = [
+        { text: "Download Chrome", url: "https://www.google.com/chrome/" },
+        {
+          text: "Download Firefox",
+          url: "https://www.mozilla.org/firefox/new/",
+        },
+        { text: "Download Edge", url: "https://www.microsoft.com/edge/" },
+      ];
+      eaBrowserSupport.dismissText = "Dismiss";
+      eaBrowserSupport.svgLogo = "";
+      eaBrowserSupport.init();
+    </script>
+
+    <ea-type-kit kit-url="//use.typekit.net/jjd6ead.js"></ea-type-kit>
+
+    <noscript
+      ><img
+        src="https://www.ea.com/akam/13/pixel_f9bb62a?a=dD0zZjE4YzRjMzczMDZiNDJjOGRjZmQyZWYxMDJjNGQ1NmZiMWE3ZGY2JmpzPW9mZg=="
+        style="
+          visibility: hidden;
+          position: absolute;
+          left: -999px;
+          top: -999px;
+        "
+    /></noscript>
+  </body>
+</html>
